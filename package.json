@@ -7,9 +7,9 @@
   "unpkg": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
-  "exports":{
-    "require":"./dist/index.js",
-    "default":"./dist/index.modern.js"
+  "exports": {
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.js"
   },
   "scripts": {
     "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap",
@@ -17,13 +17,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "files": ["dist"],
-  "author": "iron Das <hcdas.09@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "author": "Hiron Das <hcdas.09@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "microbundle": "^0.15.1"
   },
   "dependencies": {
+    "@types/aes-js": "^3.1.4",
+    "@types/pbkdf2": "^3.1.2",
+    "aes-js": "^3.1.2",
+    "axios": "^1.7.9",
+    "pbkdf2": "^3.1.2",
     "typescript": "^5.7.2"
   }
 }
