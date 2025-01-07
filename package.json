@@ -1,18 +1,29 @@
 {
-  "name": "vehicle-management-sdk",
+  "name": "@hd/vehicle-management-sdk",
   "version": "1.0.0",
-  "description": "",
+  "description": "`npm run build`",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
   "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "source": "src/index.ts",
+  "exports":{
+    "require":"./dist/index.js",
+    "default":"./dist/index.modern.js"
+  },
   "scripts": {
+    "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap",
+    "dev": "microbundle --watch --tsconfig ./tsconfig.json --no-sourcemap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
+  "files": ["dist"],
   "author": "iron Das <hcdas.09@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "microbundle": "^0.15.1"
+  },
+  "dependencies": {
     "typescript": "^5.7.2"
   }
 }
