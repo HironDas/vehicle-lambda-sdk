@@ -18,8 +18,8 @@ export abstract class ApiClient {
         this.httpClient.interceptors.request.use((config) => {
             if (!!this.token) {
                 config.headers.Authorization = this.token;
-            } else if (!!localStorage && !!localStorage.getItem("token")) {
-                this.token = this.decrypt(localStorage.getItem("token"));
+            } else if (!!window.localStorage && !!window.localStorage.getItem("token")) {
+                this.token = this.decrypt(window.localStorage.getItem("token"));
                 config.headers.Authorization = this.token;
             }
             return config;
@@ -31,7 +31,7 @@ export abstract class ApiClient {
             return response;
         }, function (error) {
             if (axios.isAxiosError(error) && error.response?.status === 401) {
-                window.location.href = "/login";
+                // window.location.href = "/login";
             }
             return Promise.reject(error);
         })
@@ -43,10 +43,10 @@ export abstract class ApiClient {
      * @template T - The expected response type.
      * @param {string} url - The URL to send the request to.
      * @param {string} [method] - The HTTP method to use (e.g., 'get', 'post'). Defaults to 'get'.
-     * @param {JSON} [data] - The optional request payload for methods like 'post' or 'put'.
+     * @param {Object} [data] - The optional request payload for methods like 'post' or 'put'.
      * @returns {Promise<T>} - A promise that resolves to the response data of type T.
      */
-    async invoke<T>(url: string, method?: string, data?: JSON): Promise<T> {
+    async invoke<T>(url: string, method?: string, data?: Object): Promise<T> {
         const config: AxiosRequestConfig = {
             method: method || "get",
             url: url,
@@ -60,7 +60,7 @@ export abstract class ApiClient {
         try {
             let response = await this.httpClient(config);
             if (response.status == 200 || response.status == 201) {
-                return JSON.parse(response.data) as T; //response.data as T;
+                return response.data as T; //response.data as T;
             } 
             return Promise.reject(response);
         } catch (e) {
