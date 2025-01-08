@@ -1,22 +1,77 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import * as pbkdf2 from "pbkdf2";
 import * as aesjs from "aes-js";
 
 export abstract class ApiClient {
     private token: string;
-    private httpClient: AxiosInstance;
+    protected httpClient: AxiosInstance;
+
 
     constructor(baseUrl: string) {
         this.httpClient = axios.create({ baseURL: baseUrl });
 
-        this.httpClient.interceptors.request.use((config)=>{
+        this.requestInterceptor();
+        this.responseInterceptor();
+    }
+
+    private requestInterceptor() {
+        this.httpClient.interceptors.request.use((config) => {
+            if (!!this.token) {
+                config.headers.Authorization = this.token;
+            } else if (!!localStorage && !!localStorage.getItem("token")) {
+                this.token = this.decrypt(localStorage.getItem("token"));
+                config.headers.Authorization = this.token;
+            }
             return config;
         });
     }
 
+    private responseInterceptor() {
+        this.httpClient.interceptors.response.use((response) => {
+            return response;
+        }, function (error) {
+            if (axios.isAxiosError(error) && error.response?.status === 401) {
+                window.location.href = "/login";
+            }
+            return Promise.reject(error);
+        })
+    }
+
+    /**
+     * Makes an HTTP request using the specified URL, method, and optional data.
+     * 
+     * @template T - The expected response type.
+     * @param {string} url - The URL to send the request to.
+     * @param {string} [method] - The HTTP method to use (e.g., 'get', 'post'). Defaults to 'get'.
+     * @param {JSON} [data] - The optional request payload for methods like 'post' or 'put'.
+     * @returns {Promise<T>} - A promise that resolves to the response data of type T.
+     */
+    async invoke<T>(url: string, method?: string, data?: JSON): Promise<T> {
+        const config: AxiosRequestConfig = {
+            method: method || "get",
+            url: url,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        if (!!data) {
+            config.data = data;
+        }
+        try {
+            let response = await this.httpClient(config);
+            if (response.status == 200 || response.status == 201) {
+                return JSON.parse(response.data) as T; //response.data as T;
+            } 
+            return Promise.reject(response);
+        } catch (e) {
+            throw e;
+        }
+
+    }
+
     private encrypt(token: string): string {
         if (token != undefined) {
-            let key = this.generateKey("Hiron", "$alt");
+            let key = this.generateKey("Hir0n", "$alt");
             var textBytes: Uint8Array = aesjs.utils.utf8.toBytes(token);
 
             // The counter is optional, and if omitted will begin at 1
@@ -32,7 +87,7 @@ export abstract class ApiClient {
     }
 
     private decrypt(hash: string): string {
-        let key = this.generateKey("Hiron", "$alt");
+        let key = this.generateKey("Hir0n", "$alt");
         var encryptedBytes = aesjs.utils.hex.toBytes(hash);
 
         // The counter mode of operation maintains internal state, so to
