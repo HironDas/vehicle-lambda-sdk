@@ -24,7 +24,7 @@ describe("ApiClient", () => {
         //const response = { status: 200, data: '{ message: "Hello world" }' };
         //mockedAxios.get.mockResolvedValue(Response);
 
-        let client = new Client("https://o8060dqql1.execute-api.ap-south-1.amazonaws.com");
+        let client = new Client(process.env.BASE_URL as string);
         let login = { "username": 'hiron', "password": '1234' };
 
         await expect(client.invoke<Session>("/login", "post", login)).resolves.toBeTruthy;

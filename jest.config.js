@@ -6,4 +6,6 @@ module.exports = {
   },
   ...createDefaultPreset(),
   testEnvironment: "jsdom",
+  setupFiles: ['./jest.setup.ts'],
+  preset: 'ts-jest',
 };
