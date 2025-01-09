@@ -8,17 +8,6 @@ import type { Session } from "../../models/user";
 
 //type Data = { token: string };
 
-beforeEach(() => {
-    jest.clearAllMocks();
-    Object.defineProperty(window, 'localStorage', {
-        value: {
-            getItem: jest.fn(),
-            setItem: jest.fn(),
-            removeItem: jest.fn(),
-            clear: jest.fn(),
-        }, writable: true,
-    });
-});
 
 describe("ApiClient", () => {
     it('invoke a GET request', async () => {
@@ -26,6 +15,10 @@ describe("ApiClient", () => {
         class Client extends ApiClient {
             constructor(url: string) {
                 super(url);
+            }
+
+            invoke<T>(url: string, method?: string, data?: Object): Promise<T> {
+                return super.invoke<T>(url, method, data);
             }
         };
         //const response = { status: 200, data: '{ message: "Hello world" }' };
@@ -35,6 +28,11 @@ describe("ApiClient", () => {
         let login = { "username": 'hiron', "password": '1234' };
 
         await expect(client.invoke<Session>("/login", "post", login)).resolves.toBeTruthy;
+
+        return client.invoke<Session>("/login", "post", login).then((response) => {
+            console.log(response);
+            expect(response.token).toBeTruthy;
+        });
 
     })
 })

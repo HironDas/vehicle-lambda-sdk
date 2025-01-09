@@ -46,7 +46,7 @@ export abstract class ApiClient {
      * @param {Object} [data] - The optional request payload for methods like 'post' or 'put'.
      * @returns {Promise<T>} - A promise that resolves to the response data of type T.
      */
-    async invoke<T>(url: string, method?: string, data?: Object): Promise<T> {
+    protected async invoke<T>(url: string, method?: string, data?: Object): Promise<T> {
         const config: AxiosRequestConfig = {
             method: method || "get",
             url: url,
