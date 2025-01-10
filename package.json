@@ -15,6 +15,7 @@
     "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap",
     "dev": "microbundle --watch --tsconfig ./tsconfig.json --no-sourcemap",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:integration": "jest --testPathPattern='./src/test/__integrationTests__'",
     "test:e2e": "jest --testPathPattern='./src/test/__e2eTests__'"
   },
