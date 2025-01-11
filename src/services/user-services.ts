@@ -1,10 +1,7 @@
-import { ApiClient } from "src/clients/api-client";
-import { User, UserLogin, Session, ChangePassword } from "src/models/user";
+import { ApiClient } from "../clients/api-client";
+import { User, UserLogin, Session, ChangePassword, Response } from "src/models/user";
 
-export type Response = {
-    message: string;
-}
-export class UserServices extends ApiClient{
+export class UserServices extends ApiClient {
     constructor(baseUrl: string) {
         super(baseUrl);
     }
@@ -14,8 +11,13 @@ export class UserServices extends ApiClient{
      * @param user the user's information
      * @returns a message indicating the success or failure of the operation
      */
-    signup(user: User): Promise<Response> {
-        return this.invoke<Response>("/signup", "post", user);
+    async signup(user: User): Promise<Response> {
+        try{
+            const response = await this.invoke<Response>("/signup", "post", user);
+            return response;
+        } catch (e) {
+            throw e;
+        }
     }
 
     /**
@@ -24,14 +26,14 @@ export class UserServices extends ApiClient{
      * @returns a session object containing the user's token
      */
     async login(login: UserLogin): Promise<Session> {
-        try{
+        try {
             const response = await this.invoke<Session>("/login", "post", login);
             this.setToken(response.token);
             return response;
-        }catch(e){
+        } catch (e) {
             throw e;
         }
-         
+
     }
 
     /**
@@ -39,15 +41,26 @@ export class UserServices extends ApiClient{
      * @param changge_pass the user's current and new password information
      * @returns a message indicating the success or failure of the password change operation
      */
-    changePassword(changge_pass: ChangePassword): Promise<Response> {
-        return this.invoke<Response>("/pass", "patch", changge_pass);
+    async changePassword(changge_pass: ChangePassword): Promise<Response> {
+        try {
+            const response = await this.invoke<Response>("/pass", "patch", changge_pass);
+            return response;
+        } catch (e) {
+            throw e;
+        }
+
     }
 
     /**
      * Deletes the user's session
      * @returns a message indicating the success or failure of the operation
      */
-    clearSession(){
-        return this.invoke<Response>("/session", "delete");
+    async clearSession() {
+        try{
+            const response = await this.invoke<Response>("/session", "delete");
+            return response;
+        } catch (e) {
+            throw e;
+        }
     }
 }

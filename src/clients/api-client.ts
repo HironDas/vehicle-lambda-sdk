@@ -35,11 +35,11 @@ export abstract class ApiClient {
 
     private responseInterceptor() {
         this.httpClient.interceptors.response.use((response) => {
-            return response;
+            return response.data;
         }, function (error) {
             console.log(error.response.data);
             if (axios.isAxiosError(error) && error.response?.status === 400) {
-                return Promise.reject(new BadRequestError("Bad Request! the request is not valid", "Invalid request, the request JSON format is not valid"));
+                return Promise.reject(new BadRequestError(error.response?.data, "Invalid request, the request JSON format is not valid"));
             }
             else if (axios.isAxiosError(error) && error.response?.status === 401) {
                 return Promise.reject(new UnauthorizedError("Unauthorized! Please login", "Token is not valid"));
