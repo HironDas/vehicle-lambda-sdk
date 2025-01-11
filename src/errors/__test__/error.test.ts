@@ -1,11 +1,11 @@
 import SDKError from '../sdkerror';
 import { test, expect, describe } from "@jest/globals";
-import BadRequestError from '../bad_request_error';
-import UnauthorizedError from '../unauthorized_error';
-import ForbiddenError from '../forbidden_error';
-import NotFoundError from "../notfound_error";
-import InternalServerError from "../internal_server_error";
-import GatewayTimeoutError from "../getway_timeout_error";
+import BadRequestError from '../bad-request-error';
+import UnauthorizedError from '../unauthorized-error';
+import ForbiddenError from '../forbidden-error';
+import NotFoundError from "../notfound-error";
+import InternalServerError from "../internal-server-error";
+import GatewayTimeoutError from "../getway-timeout-error";
 
 describe("SDK Error", () => {
 
