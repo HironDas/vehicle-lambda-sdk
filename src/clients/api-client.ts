@@ -9,6 +9,7 @@ import NotfoundError from "../errors/notfound-error";
 import GatewayTimeoutError from "../errors/getway-timeout-error";
 import SDKError from "../errors/sdkerror";
 
+
 export abstract class ApiClient {
     private token: string;
     protected httpClient: AxiosInstance;
@@ -35,11 +36,11 @@ export abstract class ApiClient {
 
     private responseInterceptor() {
         this.httpClient.interceptors.response.use((response) => {
-            return response.data;
+            return response;
         }, function (error) {
             console.log(error.response.data);
             if (axios.isAxiosError(error) && error.response?.status === 400) {
-                return Promise.reject(new BadRequestError(error.response?.data, "Invalid request, the request JSON format is not valid"));
+                return Promise.reject(new BadRequestError(error.response.data.message as string, "Invalid request, the request JSON format is not valid"));
             }
             else if (axios.isAxiosError(error) && error.response?.status === 401) {
                 return Promise.reject(new UnauthorizedError("Unauthorized! Please login", "Token is not valid"));
