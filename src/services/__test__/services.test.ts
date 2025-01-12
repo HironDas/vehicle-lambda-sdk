@@ -40,9 +40,9 @@ describe("User Services", () => {
     });
 
     it("should login return user token in message", async () => {
-        let login: UserLogin = { username: "shupti", password: "1234" };    
+        let login: UserLogin = { username: "shupti", password: "1234" };
 
-        mockedAxios.onPost("/login").reply(200, { token: "user_token" });             
+        mockedAxios.onPost("/login").reply(200, { token: "user_token" });
 
         let response: Session = await new UserServices("http://localhost:3000").login(login);
 
@@ -51,13 +51,37 @@ describe("User Services", () => {
         expect(response).toHaveProperty("token");
     });
 
-    it("should change password return message", async () => {
+    it("should resolve with a change password successs message", async () => {
         let changge_pass: ChangePassword = { old_password: "1234", new_password: "12345" };
 
-        mockedAxios.onPatch("/pass").reply(200, { message: "Password changed" });            
+        mockedAxios.onPatch("/pass").reply(200, { message: "Password changed" });
 
         let response: Response = await new UserServices("http://localhost:3000").changePassword(changge_pass);
 
         expect(response.message).toBe("Password changed");
+    });
+
+    it("should reject with a change password error message", async () => {
+        let changge_pass: ChangePassword = { old_password: "1234", new_password: "12345" };
+
+        mockedAxios.reset();
+        mockedAxios.onPatch("/pass").reply(400, { message: "Invalid password" });
+
+        try {
+            await new UserServices("http://localhost:3000").changePassword(changge_pass);
+        } catch (e) {
+            expect(e.message).toBe("Invalid password");
+            expect(e.name).toBe("BadRequestError");
+            expect(e.code).toBe("BAD_REQUEST");
+        }
+
+    });
+
+    it("should resolve clear session success message", async () => {
+        mockedAxios.onDelete("/session").reply(200, { message: "User session cleared" });
+
+        let response: Response = await new UserServices("http://localhost:3000").clearSession();
+
+        expect(response.message).toBe("User session cleared");
     });
 });

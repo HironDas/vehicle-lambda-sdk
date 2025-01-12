@@ -14,7 +14,8 @@ export class UserServices extends ApiClient {
     async signup(user: User): Promise<Response> {
         try{
             const response = await this.invoke<Response>("/signup", "post", user);
-            return response;
+            console.log(response);
+            return Promise.resolve(response);
         } catch (e) {
             throw e;
         }

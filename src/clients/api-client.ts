@@ -36,6 +36,7 @@ export abstract class ApiClient {
 
     private responseInterceptor() {
         this.httpClient.interceptors.response.use((response) => {
+            response.headers["Content-Type"]="application/json";
             return response;
         }, function (error) {
             console.log(error.response.data);
@@ -82,7 +83,7 @@ export abstract class ApiClient {
         try {
             let response = await this.httpClient(config);
             if (response.status == 200 || response.status == 201) {
-                return response.data as T; //response.data as T;
+                return Promise.resolve(response.data as T); //response.data as T;
             } 
             return Promise.reject(response);
         } catch (e) {
