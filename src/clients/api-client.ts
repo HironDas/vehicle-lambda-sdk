@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosHeaderValue, AxiosInstance, AxiosRequestConfig } from "axios";
 import * as pbkdf2 from "pbkdf2";
 import * as aesjs from "aes-js";
 import UnauthorizedError from "../errors/unauthorized-error";
@@ -36,7 +36,8 @@ export abstract class ApiClient {
 
     private responseInterceptor() {
         this.httpClient.interceptors.response.use((response) => {
-            response.headers["Content-Type"]="application/json";
+            
+            response.headers["Content-Type"] = "application/json";
             return response;
         }, function (error) {
             console.log(error.response.data);
