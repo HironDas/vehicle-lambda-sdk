@@ -39,16 +39,16 @@ describe("User Services", () => {
 
     });
 
-    it("should login return user token in message", async () => {
+    it("should login return success message", async () => {
         let login: UserLogin = { username: "shupti", password: "1234" };
 
         mockedAxios.onPost("/login").reply(200, { token: "user_token" });
 
-        let response: Session = await new UserServices("http://localhost:3000").login(login);
+        let response: Response = await new UserServices("http://localhost:3000").login(login);
 
         console.log(response);
-        expect(response.token).toBe("user_token");
-        expect(response).toHaveProperty("token");
+        expect(response.message).toBe("Login successful");
+        expect(response).toHaveProperty("message");
     });
 
     it("should resolve with a change password successs message", async () => {

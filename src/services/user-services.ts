@@ -1,5 +1,5 @@
 import { ApiClient } from "../clients/api-client";
-import { User, UserLogin, Session, ChangePassword, Response } from "src/models/user";
+import { User, UserLogin, Session, ChangePassword, Response } from "../models/user";
 
 export class UserServices extends ApiClient {
     constructor(baseUrl: string) {
@@ -13,9 +13,9 @@ export class UserServices extends ApiClient {
      */
     async signup(user: User): Promise<Response> {
         try{
-            const response = await this.invoke<Response>("/signup", "post", user);
-            console.log(response);
-            return Promise.resolve(response);
+            const response : Response = await this.invoke<Response>("/signup", "post", user);
+           // console.log(response);
+            return response as Response;
         } catch (e) {
             throw e;
         }
@@ -26,11 +26,11 @@ export class UserServices extends ApiClient {
      * @param login the user's login information
      * @returns a session object containing the user's token
      */
-    async login(login: UserLogin): Promise<Session> {
+    async login(login: UserLogin): Promise<Response> {
         try {
             const response = await this.invoke<Session>("/login", "post", login);
             this.setToken(response.token);
-            return response;
+            return {message: "Login successful"} as Response;
         } catch (e) {
             throw e;
         }
