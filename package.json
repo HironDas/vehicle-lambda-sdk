@@ -34,6 +34,7 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
+    "@hd/vehicle-management-sdk": "file:",
     "@types/aes-js": "^3.1.4",
     "@types/pbkdf2": "^3.1.2",
     "aes-js": "^3.1.2",

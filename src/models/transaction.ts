@@ -5,3 +5,5 @@ export type History = {
     "transaction_type": string,
     "payer": string
 }
+
+export type UndoHistory =  Omit<History, "payer"|"exp_date"> & Partial<Pick<History, "payer"|"exp_date">>;
