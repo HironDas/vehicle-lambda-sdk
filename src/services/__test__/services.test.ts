@@ -90,7 +90,7 @@ describe("User Services", () => {
 
 describe("Vehicle Services", () => {
     it("should get all vehicles", async () => {
-        mockedAxios.onGet("/vehicles").reply(200, [{
+        mockedAxios.onGet("/vehicle").reply(200, [{
             "vehicle_no": "DMA-GA-66-6666",
             "owner": "City Bank",
             "tax_date": "2024-11-01",
@@ -116,11 +116,10 @@ describe("Vehicle Services", () => {
     it("should update vehicle", async () => {
         let vehicle: UpdateVehicle = {
             "vehicle_no": "DMA-GA-66-6666",
-            "owner": "City Bank",
             "tax_date": "2024-11-01"
         };
 
-        mockedAxios.onPatch("/vehicles").reply(200, { message: "Vehicle updated" });
+        mockedAxios.onPatch("/vehicle").reply(200, { message: "Vehicle updated" });
 
         let response = await new VehicleServices("http://localhost:3000").updateVehicle(vehicle);
 
@@ -137,7 +136,7 @@ describe("Vehicle Services", () => {
             "route_date": "2024-12-10"
         };
 
-        mockedAxios.onPut("/vehicles").reply(200, { message: "Vehicle added" });
+        mockedAxios.onPut("/vehicle").reply(200, { message: "Vehicle added" });
 
         let response = await new VehicleServices("http://localhost:3000").addVehicle(vehicle);
 

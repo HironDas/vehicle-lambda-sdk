@@ -17,7 +17,7 @@ export class VehicleServices extends ApiClient {
      */
     async addVehicle(vehicle: Vehicle): Promise<Response> {
         try {
-            const response = await this.invoke<Response>('/vehicles', "put", vehicle);
+            const response = await this.invoke<Response>('/vehicle', "put", vehicle);
             return response;
         } catch (error) {
             console.error('Error adding vehicle:', error);
@@ -31,7 +31,7 @@ export class VehicleServices extends ApiClient {
      */
     async getVehicles(): Promise<Vehicle[]> {
         try {
-            const response = await this.invoke<Vehicle[]>(`/vehicles`, "get");
+            const response = await this.invoke<Vehicle[]>(`/vehicle`, "get");
             return response;
         } catch (error) {
             console.error('Error retrieving vehicles:', error);
@@ -46,7 +46,7 @@ export class VehicleServices extends ApiClient {
      */
     async updateVehicle(vehicle: UpdateVehicle): Promise<Response> {
         try {
-            const response = await this.invoke<Response>(`/vehicles`, "patch", vehicle);
+            const response = await this.invoke<Response>(`/vehicle`, "patch", vehicle);
             return response;
         } catch (error) {
             console.error('Error updating vehicle:', error);

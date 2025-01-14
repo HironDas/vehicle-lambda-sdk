@@ -9,4 +9,4 @@ export type Vehicle = {
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type UpdateVehicle = PartialBy<Vehicle, "tax_date" | "fitness_date" | "insurance_date" | "route_date">;
+export type UpdateVehicle = Omit<PartialBy<Vehicle, "tax_date" | "fitness_date" | "insurance_date" | "route_date">, "owner">;
