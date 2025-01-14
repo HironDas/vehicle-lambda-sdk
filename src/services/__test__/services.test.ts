@@ -2,8 +2,10 @@ import { it, expect, describe, jest } from "@jest/globals";
 import axios from "axios";
 import { User } from "../../models/user";
 import { UserServices } from "../user-services";
+import { VehicleServices } from "../vehicle-services";
 import type { ChangePassword, Response, Session, UserLogin } from "../../models/user";
 import MockAdapter from 'axios-mock-adapter';
+import { UpdateVehicle } from "../../models/vehicle";
 
 jest.mock('axios', () => ({
     ...(jest.requireActual('axios') as object),
@@ -83,5 +85,62 @@ describe("User Services", () => {
         let response: Response = await new UserServices("http://localhost:3000").clearSession();
 
         expect(response.message).toBe("User session cleared");
+    });
+});
+
+describe("Vehicle Services", () => {
+    it("should get all vehicles", async () => {
+        mockedAxios.onGet("/vehicles").reply(200, [{
+            "vehicle_no": "DMA-GA-66-6666",
+            "owner": "City Bank",
+            "tax_date": "2024-11-01",
+            "fitness_date": "2024-11-03",
+            "insurance_date": "2024-12-07",
+            "route_date": "2024-12-10"
+        },
+        {
+            "vehicle_no": "DMA-KA-66-6666",
+            "owner": "City Bank",
+            "tax_date": "2025-01-13",
+            "fitness_date": "2025-01-03",
+            "insurance_date": "2025-01-17",
+            "route_date": "2025-02-10"
+        },]);
+
+        let vehicles = await new VehicleServices("http://localhost:3000").getVehicles();
+
+        expect(vehicles).toHaveLength(2);
+        expect(vehicles[0].owner).toBe("City Bank");
+    });
+
+    it("should update vehicle", async () => {
+        let vehicle: UpdateVehicle = {
+            "vehicle_no": "DMA-GA-66-6666",
+            "owner": "City Bank",
+            "tax_date": "2024-11-01"
+        };
+
+        mockedAxios.onPatch("/vehicles").reply(200, { message: "Vehicle updated" });
+
+        let response = await new VehicleServices("http://localhost:3000").updateVehicle(vehicle);
+
+        expect(response.message).toBe("Vehicle updated");
+    });
+
+    it("should add vehicle", async () => {
+        let vehicle = {
+            "vehicle_no": "DMA-GA-66-6666",
+            "owner": "City Bank",
+            "tax_date": "2024-11-01",
+            "fitness_date": "2024-11-03",
+            "insurance_date": "2024-12-07",
+            "route_date": "2024-12-10"
+        };
+
+        mockedAxios.onPut("/vehicles").reply(200, { message: "Vehicle added" });
+
+        let response = await new VehicleServices("http://localhost:3000").addVehicle(vehicle);
+
+        expect(response.message).toBe("Vehicle added");
     });
 });
