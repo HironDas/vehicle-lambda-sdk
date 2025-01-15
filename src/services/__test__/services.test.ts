@@ -6,6 +6,8 @@ import { VehicleServices } from "../vehicle-services";
 import type { ChangePassword, Response, Session, UserLogin } from "../../models/user";
 import MockAdapter from 'axios-mock-adapter';
 import { UpdateVehicle } from "../../models/vehicle";
+import { TransactionServices } from "../transaction-services";
+import { UndoHistory } from "../../models/transaction";
 
 jest.mock('axios', () => ({
     ...(jest.requireActual('axios') as object),
@@ -141,5 +143,57 @@ describe("Vehicle Services", () => {
         let response = await new VehicleServices("http://localhost:3000").addVehicle(vehicle);
 
         expect(response.message).toBe("Vehicle added");
+    });
+});
+
+describe("Transaction Services", () => {
+    it("should pay fee", async () => {
+        let vehicle: UpdateVehicle = {
+            "vehicle_no": "DMA-GA-66-6666",
+            "tax_date": "2024-11-01"
+        };
+
+        mockedAxios.onPost("/pay?type=tax").reply(200, { message: "Fee paid" });
+
+        let response = await new TransactionServices("http://localhost:3000").payFee("tax", vehicle);
+
+        expect(response.message).toBe("Fee paid");
+    });
+
+    it("should get history", async () => {
+        mockedAxios.onGet("/history").reply(200, [{
+            "vehicle_no": "DMA-GA-66-6666",
+            "transaction_type": "tax",
+            "created_at": "2024-11-01",
+            "expiry_date": "2025-11-01",
+            "payer": "name"
+        },
+        {
+            "vehicle_no": "DMA-KA-66-6666",
+            "transaction_type": "tax",
+            "exp_date": "2025-01-13",
+            created_at: "2025-01-13",
+            payer: "name"
+
+        },]);
+
+        let history = await new TransactionServices("http://localhost:3000").getHistory();
+
+        expect(history).toHaveLength(2);
+        expect(history[0].vehicle_no).toBe("DMA-GA-66-6666");
+    });
+
+    it("should undo history", async () => {
+        let history: UndoHistory = {
+            "vehicle_no": "DMA-GA-66-6666",
+            "transaction_type": "tax",
+            "created_at": "2024-11-01"
+        };
+
+        mockedAxios.onDelete("/history").reply(200, { message: "History undone" });
+
+        let response = await new TransactionServices("http://localhost:3000").undoHistory(history);
+
+        expect(response.message).toBe("History undone");
     });
 });

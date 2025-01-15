@@ -1,6 +1,8 @@
-import { UpdateVehicle } from 'src/models/vehicle';
+import { UpdateVehicle } from '../models/vehicle';
 import { ApiClient } from '../clients/api-client';
-import { UndoHistory } from 'src/models/transaction';
+import { UndoHistory } from '../models/transaction';
+import { History } from '../models/transaction';
+import { Response } from '../models/user';
 
 export type FeeType = 'fitness' | 'tax' | 'insurance' | 'route';
 
