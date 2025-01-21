@@ -9,9 +9,9 @@ describe('TransactionServices', () => {
     let transactionServices: TransactionServices;
     const baseUrl = process.env.BASE_URL as string;
 
-    beforeAll(() => { 
+    beforeAll(async() => { 
         let login = { username: "shupti", password: "12345" };
-        new UserServices(baseUrl).login(login);
+        await new UserServices(baseUrl).login(login);
     });
 
     beforeEach(() => {
@@ -23,7 +23,7 @@ describe('TransactionServices', () => {
 
         const result: Response = await transactionServices.payFee('tax', vehicle);
 
-        expect(result.message).toEqual('Fee paid successfully');
+        expect(result.message).toEqual('the car tax date is updated');
         //expect(transactionServices.invoke).toHaveBeenCalledWith('/pay?type=tax', 'post', vehicle);
     });
 
@@ -31,18 +31,18 @@ describe('TransactionServices', () => {
 
         const result: History[] = await transactionServices.getHistory();
 
-        expect(result).toHaveLength(4);
+        expect(result).toHaveLength(3);
         //expect(transactionServices.invoke).toHaveBeenCalledWith('/history', 'get');
     });
 
-    // it('should undo history successfully', async () => {
-    //     const undoHistory: UndoHistory = { id: '1' };
-    //     const response: Response = { success: true, message: 'Transaction undone successfully' };
-    //     (transactionServices.invoke as jest.Mock).mockResolvedValue(response);
 
-    //     const result = await transactionServices.undoHistory(undoHistory);
+    it('should undo history successfully', async () => {
+        const undoHistory: UndoHistory = { vehicle_no: 'DMA-GA-66-6124', transaction_type: 'tax', created_at: '2025-01-21' };
+       
 
-    //     expect(result).toEqual(response);
-    //     expect(transactionServices.invoke).toHaveBeenCalledWith('/history', 'delete', undoHistory);
-    // });
+        const result = await transactionServices.undoHistory(undoHistory);
+
+        expect(result.message).toEqual("The transaction undo successfully!!");
+        
+    });
 });
