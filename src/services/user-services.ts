@@ -2,9 +2,6 @@ import { ApiClient } from "../clients/api-client";
 import { User, UserLogin, Session, ChangePassword, Response } from "../models/user";
 
 export class UserServices extends ApiClient {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
 
     /**
      * Registers a new user and returns a message

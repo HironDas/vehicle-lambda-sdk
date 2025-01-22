@@ -7,10 +7,6 @@ import { Response } from '../models/user';
 export type FeeType = 'fitness' | 'tax' | 'insurance' | 'route';
 
 export class TransactionServices extends ApiClient {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
-
     async payFee(type: FeeType, vehicle: UpdateVehicle): Promise<Response> {
         // Implement the logic to pay fee
         // Example:

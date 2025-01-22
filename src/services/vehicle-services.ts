@@ -6,9 +6,6 @@ import { UpdateVehicle, Vehicle } from '../models/vehicle';
  * VehicleServices class to handle vehicle-related operations.
  */
 export class VehicleServices extends ApiClient {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
 
     /**
      * Adds a new vehicle.

@@ -99,7 +99,7 @@ export abstract class ApiClient {
 
             // The counter is optional, and if omitted will begin at 1
             var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
-            var encryptedBytes: ArrayBuffer = aesCtr.encrypt(textBytes);
+            var encryptedBytes = aesCtr.encrypt(textBytes);
 
             // To print or store the binary data, you may convert it to hex
             var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
