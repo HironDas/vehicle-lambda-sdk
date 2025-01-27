@@ -1,4 +1,4 @@
-export type History = {
+export interface History {
     "vehicle_no": string,
     "exp_date": string,
     "created_at": string,
@@ -6,4 +6,4 @@ export type History = {
     "payer": string
 }
 
-export type UndoHistory =  Omit<History, "payer"|"exp_date"> & Partial<Pick<History, "payer"|"exp_date">>;
+export interface UndoHistory extends Omit<History, "payer" | "exp_date">, Partial<Pick<History, "payer" | "exp_date">> { }

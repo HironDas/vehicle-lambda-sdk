@@ -21,7 +21,7 @@ export class UserServices extends ApiClient {
     /**
      * Logs in a user
      * @param login the user's login information
-     * @returns a session object containing the user's token
+     * @returns a response message if the login is successful
      */
     async login(login: UserLogin): Promise<Response> {
         try {
