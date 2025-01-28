@@ -1,18 +1,18 @@
 {
-  "name": "@hd/vehicle-management-sdk",
+  "name": "vehicle-management-sdk",
   "version": "1.0.0",
   "description": "`npm run build`",
-  "main": "dist/index.js",
-  "module": "dist/index.m.js",
-  "unpkg": "dist/index.umd.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.m.js",
+  "unpkg": "./dist/index.umd.js",
+  "types": "index",
   "source": "src/index.ts",
   "exports": {
     "require": "./dist/index.js",
     "default": "./dist/index.modern.js"
   },
   "scripts": {
-    "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap && npm run postbuild",
+    "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap",
     "postbuild": "rm -rf src/**/*.d.ts && rm -rf src/*.d.ts",
     "dev": "microbundle --watch --tsconfig ./tsconfig.json --no-sourcemap",
     "test": "jest",
@@ -25,6 +25,10 @@
     "dist"
   ],
   "author": "Hiron Das <hcdas.09@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HironDas/vehicle-lambda-sdk.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
@@ -35,7 +39,6 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "@hd/vehicle-management-sdk": "file:",
     "@types/aes-js": "^3.1.4",
     "@types/pbkdf2": "^3.1.2",
     "aes-js": "^3.1.2",
