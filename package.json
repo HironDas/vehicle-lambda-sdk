@@ -1,16 +1,12 @@
 {
   "name": "vehicle-management-sdk",
-  "version": "1.0.0",
-  "description": "`npm run build`",
+  "version": "1.0.2",
+  "description": "Package for vehicle management SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.m.js",
   "unpkg": "./dist/index.umd.js",
-  "types": "index",
-  "source": "src/index.ts",
-  "exports": {
-    "require": "./dist/index.js",
-    "default": "./dist/index.modern.js"
-  },
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
   "scripts": {
     "build": "rm -rf dist && microbundle --tsconfig ./tsconfig.json --no-sourcemap",
     "postbuild": "rm -rf src/**/*.d.ts && rm -rf src/*.d.ts",

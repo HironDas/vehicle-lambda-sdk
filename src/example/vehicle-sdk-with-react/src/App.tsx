@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import SDK from 'vehicle-management-sdk';
 import './App.css'
-import * as SDK  from 'vehicle-management-sdk/dist';
+
 
 function App() {
   const [count, setCount] = useState(0)
 
-  const sdk = new SDK("https://o8060dqql1.execute-api.ap-south-1.amazonaws.com");
+ const sdk = new SDK("https://o8060dqql1.execute-api.ap-south-1.amazonaws.com");
 
   return (
     <>
