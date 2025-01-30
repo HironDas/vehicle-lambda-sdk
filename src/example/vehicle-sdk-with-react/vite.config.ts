@@ -3,10 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      external: ['@hd/vehicle-management-sdk'],
-    }
-  },
   plugins: [react()],
+  server: { port: 3000, host: '127.0.0.1' },
+  assetsInclude:['./src/main.tsx']
 })

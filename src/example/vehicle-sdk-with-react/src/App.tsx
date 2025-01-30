@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import SDK from 'vehicle-management-sdk';
+import SDK, { UserLogin } from 'vehicle-management-sdk';
 import './App.css'
 
 
@@ -9,6 +9,14 @@ function App() {
   const [count, setCount] = useState(0)
 
  const sdk = new SDK("https://o8060dqql1.execute-api.ap-south-1.amazonaws.com");
+
+ const userLogin:UserLogin = {username: "hiron", password: "1234"};
+
+ useEffect(() => {
+    sdk.login(userLogin).then((result) => {
+        console.log(result);
+    });
+ }, []);
 
   return (
     <>
