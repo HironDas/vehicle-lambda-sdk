@@ -1,6 +1,6 @@
 {
-  "name": "vehicle-management-sdk",
-  "version": "1.0.2",
+  "name": "@hirondas/vehicle-management-sdk",
+  "version": "1.0.0",
   "description": "Package for vehicle management SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.m.js",
@@ -29,18 +29,19 @@
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "axios-mock-adapter": "^2.1.0",
+    "dotenv": "^16.4.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "microbundle": "^0.15.1",
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
+    "@hd/vehicle-management-sdk": "file:",
+    "@hirondas/vehicle-management-sdk": "file:",
     "@types/aes-js": "^3.1.4",
-    "@types/pbkdf2": "^3.1.2",
     "aes-js": "^3.1.2",
     "axios": "^1.7.9",
-    "dotenv": "^16.4.7",
-    "pbkdf2": "^3.1.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vehicle-management-sdk": "file:"
   }
 }

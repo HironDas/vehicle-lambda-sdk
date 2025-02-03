@@ -1,24 +1,22 @@
 import {useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import SDK, { UserLogin } from 'vehicle-management-sdk';
+import SDK from  'vehicle-management-sdk';
 import './App.css'
 
 
 function App() {
   const [count, setCount] = useState(0)
-  // const key = JSON.parse(import.meta.env.VITE_KEY);
-  // console.log(key);
-  const sdk = new SDK(import.meta.env.VITE_URL as string);
 
- console.log(sdk);
+  
+ const sdk = new SDK(import.meta.env.VITE_URL);
 
- const userLogin:UserLogin = {username: "hiron", password: "1234"};
+ const userLogin = {username: "hiron", password: "1234"};
 
  useEffect(() => {
     sdk.login(userLogin).then((result) => {
         console.log(result);
-    }).catch((error) => { console.log(error); });
+    });
  }, []);
 
   return (
@@ -37,7 +35,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">

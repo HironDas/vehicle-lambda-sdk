@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosHeaderValue, AxiosInstance, AxiosRequestConfig } from "axios";
-import * as pbkdf2 from "pbkdf2";
+// import * as pbkdf2 from "pbkdf2";
 import * as aesjs from "aes-js";
 import UnauthorizedError from "../errors/unauthorized-error";
 import ForbiddenError from "../errors/forbidden-error";
@@ -13,11 +13,11 @@ import SDKError from "../errors/sdkerror";
 export abstract class ApiClient {
     private token: string;
     protected httpClient: AxiosInstance;
+   
 
 
     constructor(baseUrl: string) {
         this.httpClient = axios.create({ baseURL: baseUrl });
-
         this.requestInterceptor();
         this.responseInterceptor();
     }
@@ -94,7 +94,7 @@ export abstract class ApiClient {
 
     private encrypt(token: string): string {
         if (token != undefined) {
-            let key = this.generateKey("Hir0n", "$alt");
+            let key = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; //this.generateKey("Hir0n", "$alt");
             var textBytes: Uint8Array = aesjs.utils.utf8.toBytes(token);
 
             // The counter is optional, and if omitted will begin at 1
@@ -110,7 +110,7 @@ export abstract class ApiClient {
     }
 
     private decrypt(hash: string): string {
-        let key = this.generateKey("Hir0n", "$alt");
+        let key = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];// this.generateKey("Hir0n", "$alt");
         var encryptedBytes = aesjs.utils.hex.toBytes(hash);
 
         // The counter mode of operation maintains internal state, so to
@@ -123,9 +123,9 @@ export abstract class ApiClient {
         return decryptedText;
     }
 
-    private generateKey(password: string, salt: string): Buffer {
-        return pbkdf2.pbkdf2Sync(password, salt, 1, 128 / 8, 'sha512');
-    }
+    // private generateKey(password: string, salt: string): Buffer {
+    //     return pbkdf2.pbkdf2Sync(password, salt, 1, 128 / 8, 'sha512');
+    // }
 
     protected setToken(token: string) {
         this.token = token;
